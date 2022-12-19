@@ -34,6 +34,7 @@ function minusHours(){
 function plusMinutes(){
     minutes++
     if (minutes > 59) {
+        plusHours()
         minutes=0
     }
 
@@ -64,7 +65,8 @@ function minusMinutes(){
 
 function plusSeconds(){
     seconds++
-    if (seconds > 59) {
+if (seconds > 59) {
+    plusMinutes();
         seconds=0
     }
 
@@ -73,9 +75,14 @@ function plusSeconds(){
     } else{
         t=seconds
     }
+    
+
+    
 
     document.getElementById("seconds").textContent=t;
 }
+
+
 
 function minusSeconds(){
     seconds--
@@ -100,6 +107,18 @@ function start(){
 function tick(){
     minusSeconds()
     if (seconds == 0 && minutes == 0 && hours == 0){
-        clearInterval(intervalId);
+        clearInterval(intervalId); 
+        beep()
     }
+}
+const context = new AudioContext();
+function beep(){
+    const osc=context.createOscillator();
+    const gainNode = context.createGain();
+    gainNode.connect(context.destination);
+    gainNode.gain.value=1;
+    osc.connect(gainNode);
+    osc.frequency.value=440
+    gainNode.gain.setValueAtTime(0, context.currentTime + 1)
+    osc.start()
 }

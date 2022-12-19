@@ -1,7 +1,7 @@
 .digit {
     font-size: 40pt;
     font-family: 'Courier New', Courier, monospace;
-    color: orangered;
+    color: rgb(56, 76, 192);
 }
 .control button{
     font-size: 40pt;
