@@ -8,13 +8,7 @@ function plusHours(){
         hours=0
     }
 
-    if (hours < 10){
-        t="0"+hours
-    } else{
-        t=hours
-    }
-
-    document.getElementById("hours").textContent = t
+    document.getElementById("hours").textContent =fillUpZero(hours)
 }
 
 function minusHours(){
@@ -23,12 +17,7 @@ function minusHours(){
         hours=23
     }
 
-    if (hours < 10){
-        t="0"+hours
-    } else{
-        t=hours
-    }
-    document.getElementById("hours").textContent=t;
+    document.getElementById("hours").textContent=fillUpZero(hours);
 }
 
 function plusMinutes(){
@@ -38,13 +27,9 @@ function plusMinutes(){
         minutes=0
     }
 
-    if (minutes < 10){
-        t="0"+minutes
-    } else{
-        t=minutes
-    }
 
-    document.getElementById("minutes").textContent=t;
+
+    document.getElementById("minutes").textContent=fillUpZero(minutes);
 }
 
 function minusMinutes(){
@@ -54,13 +39,9 @@ function minusMinutes(){
         minutes=59
     }
 
-    if (minutes < 10){
-        t="0"+minutes
-    } else{
-        t=minutes
-    }
 
-    document.getElementById("minutes").textContent=t;
+
+    document.getElementById("minutes").textContent=fillUpZero(minutes);
 }
 
 function plusSeconds(){
@@ -70,16 +51,12 @@ if (seconds > 59) {
         seconds=0
     }
 
-    if (seconds < 10){
-        t="0"+seconds
-    } else{
-        t=seconds
-    }
+
     
 
     
 
-    document.getElementById("seconds").textContent=t;
+    document.getElementById("seconds").textContent=fillUpZero(seconds);
 }
 
 
@@ -91,13 +68,9 @@ function minusSeconds(){
         seconds=59
     }
 
-    if (seconds < 10){
-        t="0"+seconds
-    } else{
-        t=seconds
-    }
 
-    document.getElementById("seconds").textContent=t;
+
+    document.getElementById("seconds").textContent=fillUpZero(seconds);
 }
 
 function start(){
@@ -108,17 +81,28 @@ function tick(){
     minusSeconds()
     if (seconds == 0 && minutes == 0 && hours == 0){
         clearInterval(intervalId); 
-        beep()
+        beep(2,660)
+    }
+    if (seconds == 10 && minutes == 0 && hours == 0){
+        beep(0.5,440)
     }
 }
 const context = new AudioContext();
-function beep(){
+function beep(l,f){
     const osc=context.createOscillator();
     const gainNode = context.createGain();
     gainNode.connect(context.destination);
-    gainNode.gain.value=1;
+    gainNode.gain.value=1*l;
     osc.connect(gainNode);
-    osc.frequency.value=440
+    osc.frequency.value=f
     gainNode.gain.setValueAtTime(0, context.currentTime + 1)
     osc.start()
+}
+function fillUpZero(num) {
+    if (num < 10){
+        t="0"+num
+    } else{
+        t=num
+    }
+    return t
 }
